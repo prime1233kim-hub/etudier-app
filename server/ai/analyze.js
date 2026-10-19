@@ -3,7 +3,7 @@
 // server/research, because looking like a garment is not the same as being it.
 
 const { analysisSchema, validate, normalizeAnalysis } = require('./schema');
-const { model, PublicError, createWithFallback } = require('./client');
+const { provider, model, PublicError, createWithFallback, getGemini } = require('./client');
 
 const SYSTEM = `You are a fashion design tutor helping students analyse runway and fashion reference photographs.
 
@@ -21,7 +21,13 @@ Rules:
 - If the image does not show clothing being worn or displayed, set is_fashion_image to false, explain in image_note, and keep the other fields minimal (empty lists, short strings).
 - image_note: one sentence on image quality or limits (lighting, crop, motion blur), or an empty string.`;
 
-async function analyzeImage({ buffer, mediaType }) {
+const USER_PROMPT = 'Analyse this look for a fashion student.';
+
+async function analyzeImage(image) {
+  return provider() === 'gemini' ? analyzeWithGemini(image) : analyzeWithClaude(image);
+}
+
+async function analyzeWithClaude({ buffer, mediaType }) {
   const response = await createWithFallback({
     model: model(),
     max_tokens: 16000,
@@ -34,7 +40,7 @@ async function analyzeImage({ buffer, mediaType }) {
       role: 'user',
       content: [
         { type: 'image', source: { type: 'base64', media_type: mediaType, data: buffer.toString('base64') } },
-        { type: 'text', text: 'Analyse this look for a fashion student.' }
+        { type: 'text', text: USER_PROMPT }
       ]
     }]
   });
@@ -48,7 +54,46 @@ function parseAnalysisResponse(response) {
   if (response.stop_reason === 'max_tokens') {
     throw new PublicError('ai_incomplete', 'The analysis was cut short. Please try again.', 502);
   }
-  const text = (response.content || []).filter((b) => b.type === 'text').map((b) => b.text).join('');
+  return parseAnalysisText((response.content || []).filter((b) => b.type === 'text').map((b) => b.text).join(''));
+}
+
+// Google Gemini (has a free plan). Same prompt and schema as Claude.
+async function analyzeWithGemini({ buffer, mediaType }) {
+  const response = await getGemini().models.generateContent({
+    model: model(),
+    contents: [{
+      role: 'user',
+      parts: [
+        { inlineData: { mimeType: mediaType, data: buffer.toString('base64') } },
+        { text: USER_PROMPT }
+      ]
+    }],
+    config: {
+      systemInstruction: SYSTEM,
+      responseMimeType: 'application/json',
+      responseJsonSchema: analysisSchema,
+      maxOutputTokens: 16000
+    }
+  });
+  return parseGeminiResponse(response);
+}
+
+const GEMINI_BLOCKED = ['SAFETY', 'PROHIBITED_CONTENT', 'BLOCKLIST', 'SPII', 'IMAGE_SAFETY', 'IMAGE_PROHIBITED_CONTENT', 'RECITATION'];
+
+function parseGeminiResponse(response) {
+  const candidate = (response.candidates || [])[0];
+  if ((response.promptFeedback && response.promptFeedback.blockReason) || (candidate && GEMINI_BLOCKED.includes(candidate.finishReason))) {
+    throw new PublicError('ai_refused', 'The AI declined to analyse this image. Try a different photograph.', 422);
+  }
+  if (!candidate) throw new PublicError('ai_invalid', 'The AI returned no analysis. Please try again.', 502);
+  if (candidate.finishReason === 'MAX_TOKENS') {
+    throw new PublicError('ai_incomplete', 'The analysis was cut short. Please try again.', 502);
+  }
+  const text = ((candidate.content && candidate.content.parts) || []).filter((p) => typeof p.text === 'string' && !p.thought).map((p) => p.text).join('');
+  return parseAnalysisText(text);
+}
+
+function parseAnalysisText(text) {
   let data;
   try {
     data = JSON.parse(text);
@@ -63,4 +108,4 @@ function parseAnalysisResponse(response) {
   return normalizeAnalysis(data);
 }
 
-module.exports = { analyzeImage, parseAnalysisResponse, SYSTEM };
+module.exports = { analyzeImage, parseAnalysisResponse, parseGeminiResponse, SYSTEM };

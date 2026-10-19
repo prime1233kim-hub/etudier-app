@@ -39,14 +39,17 @@ async function loadStatus() {
     el.status.innerHTML = `
       <div class="notice warn">
         <strong>AI analysis isn’t set up on this server yet.</strong>
-        <p>The site owner needs to add an <code>ANTHROPIC_API_KEY</code> (see the README). Until then you can still upload and crop images, or explore a sample.</p>
+        <p>The site owner needs to add a free <code>GEMINI_API_KEY</code> or an <code>ANTHROPIC_API_KEY</code> (see the README). Until then you can still upload and crop images, or explore a sample.</p>
         <div class="actions"><button type="button" class="btn small" id="demo-btn">Try the demo</button></div>
       </div>`;
     $('demo-btn').addEventListener('click', runDemo);
-  } else if (!state.status.research) {
-    el.status.innerHTML = `<div class="notice"><p>Source research is switched off on this server. Garment analysis works as normal.</p></div>`;
   } else {
-    el.status.innerHTML = '';
+    const notes = [];
+    if (state.status.provider === 'gemini') {
+      notes.push('<strong>Privacy:</strong> photos are analysed by Google Gemini’s free service. Google may use content sent on its free plan to improve its products, so only upload photos you’re happy to share. The free service also has a daily limit.');
+    }
+    if (!state.status.research) notes.push('Source research is switched off on this server. Garment analysis works as normal.');
+    el.status.innerHTML = notes.map((n) => `<div class="notice"><p>${n}</p></div>`).join('');
   }
 }
 

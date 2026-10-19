@@ -1,5 +1,7 @@
 # Render Blueprint: lets Render set the service up from this file.
-# The API key is NOT stored here — Render asks for it when you create the service.
+# No keys are stored here — Render asks for GEMINI_API_KEY when you create
+# the service. (To use paid Claude instead, add ANTHROPIC_API_KEY later in
+# the service's Environment settings.)
 services:
   - type: web
     name: etudier-app
@@ -11,5 +13,5 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "22"
-      - key: ANTHROPIC_API_KEY
+      - key: GEMINI_API_KEY
         sync: false

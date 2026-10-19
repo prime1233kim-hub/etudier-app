@@ -12,7 +12,7 @@ if (fs.existsSync(path.join(__dirname, '.env')) && typeof process.loadEnvFile ==
 const express = require('express');
 const { singleImage } = require('./server/upload');
 const { rateLimit } = require('./server/ratelimit');
-const { aiConfigured, model, toPublicError } = require('./server/ai/client');
+const { provider, aiConfigured, model, toPublicError } = require('./server/ai/client');
 const { analyzeImage } = require('./server/ai/analyze');
 const { researchSources, researchEnabled } = require('./server/research/research');
 const archive = require('./server/archive');
@@ -51,7 +51,7 @@ const api = express.Router();
 api.use(express.json({ limit: '700kb' }));
 
 api.get('/status', (req, res) => {
-  res.json({ ai: aiConfigured(), research: researchEnabled(), model: aiConfigured() ? model() : null });
+  res.json({ ai: aiConfigured(), provider: provider(), research: researchEnabled(), model: aiConfigured() ? model() : null });
 });
 
 // Demo mode: a clearly labelled sample analysis with its own example photo,
@@ -63,7 +63,7 @@ api.get('/demo', (req, res) => {
 
 api.post('/analyze', rateLimit({ windowMs: 10 * 60_000, max: Number(process.env.ANALYZE_LIMIT || 10), name: 'analysis' }), singleImage('image'), async (req, res) => {
   if (!aiConfigured()) {
-    return res.status(503).json({ error: 'ai_not_configured', message: 'AI analysis is not set up on this server yet. Add ANTHROPIC_API_KEY to enable it.' });
+    return res.status(503).json({ error: 'ai_not_configured', message: 'AI analysis is not set up on this server yet. Add GEMINI_API_KEY (free) or ANTHROPIC_API_KEY to enable it.' });
   }
   try {
     const analysis = await analyzeImage({ buffer: req.file.buffer, mediaType: req.file.mimetype });
@@ -135,7 +135,7 @@ app.use((req, res) => res.status(404).sendFile(path.join(__dirname, 'public', '4
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`ÉTUDIER running at http://localhost:${PORT}`);
-    console.log(aiConfigured() ? `AI analysis on (${model()})` : 'AI analysis off — add ANTHROPIC_API_KEY to .env (demo mode available)');
+    console.log(aiConfigured() ? `AI analysis on (${provider()}: ${model()})` : 'AI analysis off — add GEMINI_API_KEY (free) or ANTHROPIC_API_KEY to .env (demo mode available)');
   });
 }
 

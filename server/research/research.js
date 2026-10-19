@@ -1,16 +1,17 @@
 // Step 2 of 2: source research. Runs after the visual analysis, using
-// Claude's server-side web search. Every link it proposes must
+// Claude's server-side web search, or Google Search through Gemini
+// (see gemini-search.js). Every link it proposes must
 //   1) have actually appeared in the search results (no invented URLs), and
 //   2) pass verifyCandidate() — loaded by this server, domain and content checked.
 
-const { model, createWithFallback, PublicError } = require('../ai/client');
+const { provider, aiConfigured, model, createWithFallback, PublicError } = require('../ai/client');
 const { verifyCandidate } = require('./verify');
 
 const SOURCE_TYPES = ['official_product_page', 'official_collection_page', 'official_brand_page', 'official_instagram', 'runway_archive', 'press'];
 const MATCH_CLAIMS = ['exact_product', 'same_collection', 'brand_reference'];
 
 function researchEnabled() {
-  return Boolean(process.env.ANTHROPIC_API_KEY) && (process.env.RESEARCH_PROVIDER || 'anthropic') !== 'off';
+  return aiConfigured() && String(process.env.RESEARCH_PROVIDER || 'on').toLowerCase() !== 'off';
 }
 
 const clip = (s, n = 200) => String(s == null ? '' : s).slice(0, n);
@@ -106,8 +107,16 @@ async function runSearch(input) {
   return { parsed: extractJson(finalText), searchResults: collectSearchResults(allContent) };
 }
 
+function defaultSearch() {
+  if (provider() === 'gemini') {
+    const { geminiSearch } = require('./gemini-search');
+    return (input) => geminiSearch(input, { normalizeUrl });
+  }
+  return runSearch;
+}
+
 // search is injectable so tests can run without the network.
-async function researchSources(body, { search = runSearch, verify = verifyCandidate } = {}) {
+async function researchSources(body, { search = defaultSearch(), verify = verifyCandidate } = {}) {
   const input = researchInput(body);
   const { parsed, searchResults } = await search(input);
   if (!parsed || typeof parsed !== 'object') {

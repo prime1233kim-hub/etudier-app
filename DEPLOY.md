@@ -2,36 +2,29 @@
 
 These steps publish the new site **as a separate Render service**, so your current site at etudier-v1vp.onrender.com keeps working until you decide to switch over.
 
-Git is already set up in this folder with everything committed. Your `.env` file (with your secret key) is excluded, so it will never be uploaded.
+Your `.env` file (with your secret key) is excluded from Git, so it will never be uploaded.
 
-## 1. Put the code on GitHub
+## 1. The code on GitHub (already done)
 
-1. On github.com, click **New repository**, name it `etudier-app`, and leave it **empty**: no README and no .gitignore.
-2. In a terminal inside this `etudier-app` folder, run these two commands. Replace `YOUR-NAME` with your GitHub username.
-
-   ```bash
-   git remote add origin https://github.com/YOUR-NAME/etudier-app.git
-   ```
-
-   ```bash
-   git push -u origin main
-   ```
+The code is at **https://github.com/prime1233kim-hub/etudier-app**, and this folder is connected to it. Step 3 explains how to upload future changes.
 
 ## 2. Create the Render service
 
 The folder includes a `render.yaml` file, so Render can fill in the settings for you.
 
 1. Go to **render.com** → **New** → **Blueprint**, and pick your `etudier-app` repository.
-2. When Render asks for `ANTHROPIC_API_KEY`, paste your key from console.anthropic.com.
+2. When Render asks for `GEMINI_API_KEY`, paste your free key from aistudio.google.com.
 3. Click **Apply**. After a few minutes you'll get a new `.onrender.com` address.
 
 **Prefer to set it up by hand?** Choose **New** → **Web Service** instead, with these settings:
 
 - **Build command:** `npm install`
 - **Start command:** `npm start`
-- **Environment variable:** `ANTHROPIC_API_KEY`
+- **Environment variable:** `GEMINI_API_KEY` (free), or `ANTHROPIC_API_KEY` for paid Claude
 
-**Check it worked:** open `your-address.onrender.com/api/status`. It should say `"ai":true`.
+**Check it worked:** open `your-address.onrender.com/api/status`. It should say `"ai":true` and `"provider":"gemini"`.
+
+**Already created the service?** Go to its **Environment** tab, add `GEMINI_API_KEY` with your key, and save. Render restarts the site automatically.
 
 ## 3. Making changes later
 

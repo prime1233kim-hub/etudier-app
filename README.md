@@ -36,12 +36,27 @@ The site works straight away, but without an AI key the Analyze page shows a **d
 
 ## Turn on the real AI
 
-1. Create an account at **console.anthropic.com** and make an **API key**. Using the API costs money, a few cents per analysis, so set a monthly spending limit in the console.
+There are two options. You only need one.
+
+### Option A: free (Google Gemini)
+
+1. Go to **aistudio.google.com**, sign in with a Google account, and click **Get API key**, then **Create API key**. No credit card is needed.
 2. In this folder, copy `.env.example` to a new file called `.env`.
-3. Paste your key after `ANTHROPIC_API_KEY=`.
+3. Paste your key after `GEMINI_API_KEY=`.
 4. Stop the server (Ctrl + C) and run `npm start` again.
 
-The same key powers both the image analysis and the source research. Keep `.env` private. It is already excluded from Git.
+Things to know about the free plan:
+
+- **Daily limits.** When they run out, the site says "try again later" until the limit resets.
+- **Privacy.** Google says it may use content sent on its free plan to improve its products. The Analyze page tells visitors this.
+- **Models.** Analysis uses `gemini-3.8-flash`. Source research uses `gemini-2.5-flash`, because Google Search is only free with the 2.5 models. You can change either in `.env` if Google's free models change.
+
+### Option B: paid (Anthropic Claude)
+
+1. Create an account at **console.anthropic.com** and make an **API key**. It costs roughly 25–50 cents per analysed look, so set a monthly spending limit in the console.
+2. Put the key after `ANTHROPIC_API_KEY=` in `.env`, then restart.
+
+If both keys are set, Claude is used. Add `AI_PROVIDER=gemini` to force the free option. Keep `.env` private; it is already excluded from Git.
 
 ## Check that everything works
 
@@ -49,7 +64,7 @@ The same key powers both the image analysis and the source research. Keep `.env`
 npm test
 ```
 
-This runs 32 automatic checks. They cover uploads, the analysis pipeline (using a pretend AI, so no key or money is needed), link checking, the archive, and security headers.
+This runs 37 automatic checks. They cover uploads, the analysis pipeline for both Claude and Gemini (using pretend AI services, so no key or money is needed), link checking, the archive, and security headers.
 
 ---
 
@@ -61,14 +76,14 @@ This runs 32 automatic checks. They cover uploads, the analysis pipeline (using 
 | Upload: drag and drop, file picker, mobile camera roll, crop, replace, remove | ✅ Works with no setup |
 | File checks: JPEG/PNG/WebP only, 10 MB max, fake files rejected | ✅ Works with no setup |
 | Demo analysis, clearly labelled as sample data | ✅ Works with no setup |
-| Real AI analysis of your uploaded photo | 🔑 Needs `ANTHROPIC_API_KEY` |
-| Brand & source research, with link checking | 🔑 Needs `ANTHROPIC_API_KEY` |
+| Real AI analysis of your uploaded photo | 🔑 Needs `GEMINI_API_KEY` (free) or `ANTHROPIC_API_KEY` |
+| Brand & source research, with link checking | 🔑 Needs `GEMINI_API_KEY` (free) or `ANTHROPIC_API_KEY` |
 | Saved looks, collections, glossary, copy/download notes | ✅ Works, but stored **in your browser only** |
 | Adding looks to the public archive | ✅ Works. See the storage note below |
 
 ### How source links are kept honest
 
-1. The AI may only suggest links that actually came back from a web search. Made-up URLs are thrown away.
+1. The AI may only suggest links that actually came back from a web search. Made-up URLs are thrown away. With Gemini, the AI picks pages by number from the list Google Search returned, so it can't type in a URL at all.
 2. The server opens every link itself. Broken links are removed, and links to private or local addresses are blocked.
 3. Each link gets a label based on what the server actually found on the page, never on the AI's opinion:
    - **Verified match**: the page is on the brand's official website, and it names the brand and the exact product.
@@ -84,7 +99,7 @@ This runs 32 automatic checks. They cover uploads, the analysis pipeline (using 
 - **AI can be wrong.** Colours are estimates, and fabrics are often guesses (each is labelled). Treat results as a starting point.
 - **Brand websites often block automated checks.** Those links are kept, but marked unverified.
 - **Rate limits** are kept in memory, so they reset when the server restarts.
-- The live AI path was tested against a simulated API, not the real one. Run one real analysis after adding your key.
+- The live AI path was tested against simulated Claude and Gemini services, not the real ones. Run one real analysis after adding your key.
 
 ## Example images
 
@@ -99,7 +114,7 @@ The designer and season come from each photo's Commons record. The written analy
 
 ```
 server.js                  web server and API routes
-server/ai/                 AI analysis (Claude) and the result schema
+server/ai/                 AI analysis (Claude or Gemini) and the result schema
 server/research/           source research and link verification
 server/upload.js           upload checks (type, size, real image bytes)
 server/archive.js          public archive storage
