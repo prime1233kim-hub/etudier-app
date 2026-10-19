@@ -12,7 +12,7 @@ if (fs.existsSync(path.join(__dirname, '.env')) && typeof process.loadEnvFile ==
 const express = require('express');
 const { singleImage } = require('./server/upload');
 const { rateLimit } = require('./server/ratelimit');
-const { provider, aiConfigured, model, toPublicError } = require('./server/ai/client');
+const { provider, aiConfigured, describeKeys, model, toPublicError } = require('./server/ai/client');
 const { analyzeImage } = require('./server/ai/analyze');
 const { researchSources, researchEnabled } = require('./server/research/research');
 const archive = require('./server/archive');
@@ -135,7 +135,8 @@ app.use((req, res) => res.status(404).sendFile(path.join(__dirname, 'public', '4
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`ÉTUDIER running at http://localhost:${PORT}`);
-    console.log(aiConfigured() ? `AI analysis on (${provider()}: ${model()})` : 'AI analysis off — add GEMINI_API_KEY (free) or ANTHROPIC_API_KEY to .env (demo mode available)');
+    console.log(aiConfigured() ? `AI analysis on (${provider()}: ${model()})` : 'AI analysis off — add GEMINI_API_KEY (free) or ANTHROPIC_API_KEY (demo mode available)');
+    console.log(`AI key check: ${describeKeys()}`);
   });
 }
 
