@@ -1,11 +1,13 @@
-// Source research with Google Gemini (free plan) in two steps:
+// Source research with Google Gemini in two steps. Needs Google Search,
+// which Google's free plan doesn't include for current models, so it only
+// runs when GEMINI_RESEARCH=on (a paid Google plan). Steps:
 //   1. Gemini searches with Google Search and reports what it found. Google
 //      returns the pages it used ("grounding chunks") as redirect links,
 //      which this server resolves to the real page addresses.
 //   2. Gemini picks candidates *by number* from that list of real pages,
 //      so it cannot invent a URL. The usual verification then runs on each.
 
-const { getGemini, model, geminiResearchModel, PublicError } = require('../ai/client');
+const { geminiGenerate, PublicError } = require('../ai/client');
 
 const SOURCE_TYPES = ['official_product_page', 'official_collection_page', 'official_brand_page', 'official_instagram', 'runway_archive', 'press'];
 const MATCH_CLAIMS = ['exact_product', 'same_collection', 'brand_reference'];
@@ -76,10 +78,9 @@ const textOf = (response) => {
  * Returns { parsed, searchResults } in the same shape as the Claude search,
  * so research.js can run the same filtering and verification.
  */
-async function geminiSearch(input, { client = getGemini(), resolve = resolveRedirect, normalizeUrl } = {}) {
+async function geminiSearch(input, { generate = geminiGenerate, resolve = resolveRedirect, normalizeUrl } = {}) {
   // Step 1: search.
-  const found = await client.models.generateContent({
-    model: geminiResearchModel(),
+  const found = await generate({
     contents: `Find the original source for this look.\n\n${JSON.stringify(input, null, 2)}`,
     config: { systemInstruction: SEARCH_SYSTEM, tools: [{ googleSearch: {} }] }
   });
@@ -97,8 +98,7 @@ async function geminiSearch(input, { client = getGemini(), resolve = resolveRedi
 
   // Step 2: choose from the numbered list only.
   const list = pages.length ? pages.map((p, i) => `[${i + 1}] ${p.title} — ${p.url}`).join('\n') : '(no pages were found)';
-  const picked = await client.models.generateContent({
-    model: model(),
+  const picked = await generate({
     contents: `Research notes:\n${textOf(found).slice(0, 6000)}\n\nPages found:\n${list}\n\nLook:\n${JSON.stringify(input)}`,
     config: { systemInstruction: PICK_SYSTEM, responseMimeType: 'application/json', responseJsonSchema: PICK_SCHEMA, maxOutputTokens: 8000 }
   });

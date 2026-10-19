@@ -22,7 +22,7 @@ The folder includes a `render.yaml` file, so Render can fill in the settings for
 - **Start command:** `npm start`
 - **Environment variable:** `GEMINI_API_KEY` (free), or `ANTHROPIC_API_KEY` for paid Claude
 
-**Check it worked:** open `your-address.onrender.com/api/status`. It should say `"ai":true` and `"provider":"gemini"`.
+**Check it worked:** open `your-address.onrender.com/api/status`. It should say `"ai":true` and `"provider":"gemini"`. (`"research":false` is normal on the free plan.)
 
 **Already created the service?** Go to its **Environment** tab, add `GEMINI_API_KEY` with your key, and save. Render restarts the site automatically.
 

@@ -164,6 +164,24 @@ function sourceCard(s) {
     </article>`;
 }
 
+// Ready-made Google searches the student can run themselves.
+function selfResearch(queries) {
+  const list = (queries || []).filter(Boolean).slice(0, 4);
+  if (!list.length) return '';
+  return `<div><span class="label">Research it yourself</span><ul class="list">${list.map((q) => `<li><a href="https://www.google.com/search?q=${encodeURIComponent(q)}" target="_blank" rel="noopener noreferrer">${esc(q)}</a></li>`).join('')}</ul></div>`;
+}
+
+// The "research off" state, with search suggestions from the analysis.
+export function researchOff(analysis, status) {
+  const free = status && status.provider === 'gemini';
+  return {
+    state: 'off',
+    title: free ? 'Automatic source research isn’t included in the free AI plan.' : 'Automatic source research is switched off on this site.',
+    message: 'These searches come from the analysis. Look for the brand’s official website or a runway archive, and remember that resemblance alone doesn’t prove where a garment came from.',
+    suggestions: analysis && analysis.identification ? analysis.identification.search_queries : []
+  };
+}
+
 export function researchHTML(state) {
   const head = sectionHead('F', 'Brand & Source Research').replace('<h2 class="h2">', '<h2 class="h2" id="sec-f">');
   let body = '';
@@ -173,7 +191,7 @@ export function researchHTML(state) {
   } else if (s.state === 'unavailable') {
     body = `<div class="notice warn"><strong>Source research is temporarily unavailable.</strong><p>${esc(s.message || 'The garment analysis above is unaffected.')}</p>${s.retry ? '<div class="actions"><button type="button" class="text-btn" data-run-research>Try again</button></div>' : ''}</div>`;
   } else if (s.state === 'off') {
-    body = `<div class="notice"><strong>Source research is not switched on.</strong><p>${esc(s.message || 'It runs with a live AI key. No links are shown rather than guessed ones.')}</p></div>`;
+    body = `<div class="notice"><strong>${esc(s.title || 'Automatic source research is not switched on.')}</strong><p>${esc(s.message || 'No links are shown rather than guessed ones.')}</p></div>${selfResearch(s.suggestions)}`;
   } else if (s.state === 'demo') {
     body = `<div class="notice"><strong>Demo mode: no source research.</strong><p>Source research only runs on real analyses with a live AI key. No sample links are shown, so nothing here could be mistaken for a verified source.</p></div>`;
   } else if (s.state === 'idle') {

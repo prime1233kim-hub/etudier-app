@@ -13,7 +13,7 @@ const path = require('node:path');
 const examples = require('../data/examples.json');
 const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
 
-let fake, server, base, last, mode = 'ok';
+let fake, server, base, last, mode = 'ok', seenModels = [];
 
 const listen = (srv) => new Promise((resolve) => srv.listen(0, '127.0.0.1', () => resolve(srv.address().port)));
 const geminiReply = (text, finishReason = 'STOP') => ({ candidates: [{ content: { role: 'model', parts: [{ text }] }, finishReason }], usageMetadata: {} });
@@ -24,7 +24,12 @@ test.before(async () => {
     req.on('data', (c) => { body += c; });
     req.on('end', () => {
       last = { url: req.url, headers: req.headers, body: JSON.parse(body || '{}') };
+      seenModels.push((req.url.match(/models\/([^:]+):/) || [])[1]);
       res.setHeader('content-type', 'application/json');
+      if (mode === 'busy-first' && req.url.includes('gemini-3.6-flash')) {
+        res.statusCode = 503;
+        return res.end(JSON.stringify({ error: { code: 503, message: 'high demand', status: 'UNAVAILABLE' } }));
+      }
       if (mode === 'limit') { res.statusCode = 429; return res.end(JSON.stringify({ error: { code: 429, message: 'quota secret detail', status: 'RESOURCE_EXHAUSTED' } })); }
       if (mode === 'blocked') return res.end(JSON.stringify({ promptFeedback: { blockReason: 'SAFETY' }, candidates: [] }));
       if (mode === 'cut') return res.end(JSON.stringify(geminiReply('{"title": "unfinished', 'MAX_TOKENS')));
@@ -49,12 +54,12 @@ const upload = () => {
   return fetch(`${base}/api/analyze`, { method: 'POST', body: form });
 };
 
-test('status reports Gemini as the provider', async () => {
+test('status reports Gemini as the provider, with research off on the free plan', async () => {
   const s = await (await fetch(`${base}/api/status`)).json();
   assert.equal(s.ai, true);
   assert.equal(s.provider, 'gemini');
-  assert.equal(s.model, 'gemini-3.8-flash');
-  assert.equal(s.research, true);
+  assert.equal(s.model, 'gemini-3.6-flash');
+  assert.equal(s.research, false, 'Google Search is not in the free plan');
 });
 
 test('analysis is sent to Gemini with the image and the JSON schema', async () => {
@@ -63,7 +68,7 @@ test('analysis is sent to Gemini with the image and the JSON schema', async () =
   assert.equal(res.status, 200);
   const data = await res.json();
   assert.equal(data.analysis.title, examples[2].analysis.title);
-  assert.match(last.url, /gemini-3\.8-flash:generateContent/);
+  assert.match(last.url, /gemini-3\.6-flash:generateContent/);
   assert.equal(last.headers['x-goog-api-key'], 'test-gemini-key');
   const parts = last.body.contents[0].parts;
   assert.equal(parts[0].inlineData.mimeType, 'image/png');
@@ -84,13 +89,34 @@ test('Gemini blocks, cut-off answers and free-limit errors are reported honestly
   assert.equal((await r.json()).error, 'ai_incomplete');
 
   mode = 'limit';
+  seenModels = [];
   r = await upload();
   const body = await r.json();
+  assert.deepEqual(seenModels, ['gemini-3.6-flash', 'gemini-3.8-flash', 'gemini-3.5-flash-lite'], 'tries every model before giving up');
   assert.equal(r.status, 503);
   assert.equal(body.error, 'ai_busy');
   assert.match(body.message, /free/);
   assert.ok(!JSON.stringify(body).includes('secret detail'));
   mode = 'ok';
+});
+
+test('a busy model falls back to the next one', async () => {
+  mode = 'busy-first';
+  seenModels = [];
+  const r = await upload();
+  assert.equal(r.status, 200);
+  assert.deepEqual(seenModels, ['gemini-3.6-flash', 'gemini-3.8-flash']);
+  mode = 'ok';
+});
+
+test('research is offered when GEMINI_RESEARCH=on (paid Google plan)', async () => {
+  process.env.GEMINI_RESEARCH = 'on';
+  try {
+    const s = await (await fetch(`${base}/api/status`)).json();
+    assert.equal(s.research, true);
+  } finally {
+    delete process.env.GEMINI_RESEARCH;
+  }
 });
 
 test('Gemini research can only pick from real search results, by number', async () => {
@@ -118,12 +144,11 @@ test('Gemini research can only pick from real search results, by number', async 
       suggestions: ['brand ss11']
     }))
   ];
-  const client = { models: { generateContent: async (req) => { calls.push(req); return replies.shift(); } } };
+  const generate = async (req) => { calls.push(req); return replies.shift(); };
   const resolve = async (uri) => ({ 'https://redirect.example/a': 'https://www.brand.com/', 'https://redirect.example/b': 'https://www.vogue.com/fashion-shows/x' })[uri];
 
-  const { parsed, searchResults } = await geminiSearch({ title: 'Look' }, { client, resolve, normalizeUrl });
+  const { parsed, searchResults } = await geminiSearch({ title: 'Look' }, { generate, resolve, normalizeUrl });
   assert.deepEqual(calls[0].config.tools, [{ googleSearch: {} }]);
-  assert.equal(calls[0].model, 'gemini-2.5-flash');
   assert.match(calls[1].contents, /\[1\] brand\.com — https:\/\/www\.brand\.com\//);
   assert.match(calls[1].contents, /\[2\] vogue\.com/);
   assert.ok(!/\[3\]/.test(calls[1].contents), 'duplicate page listed once');
@@ -139,8 +164,8 @@ test('Gemini research with no search results returns nothing rather than guesses
     { candidates: [{ content: { parts: [{ text: 'Nothing found.' }] }, finishReason: 'STOP' }] },
     geminiReply(JSON.stringify({ summary: 'No reliable source.', candidates: [{ source: 1, brand: 'X', official_domain: '', product_name: '', collection: '', source_type: 'press', match_claim: 'brand_reference', why: '' }], suggestions: [] }))
   ];
-  const client = { models: { generateContent: async () => replies.shift() } };
-  const { parsed, searchResults } = await geminiSearch({}, { client, resolve: async () => null, normalizeUrl });
+  const generate = async () => replies.shift();
+  const { parsed, searchResults } = await geminiSearch({}, { generate, resolve: async () => null, normalizeUrl });
   assert.equal(parsed.candidates.length, 0);
   assert.equal(searchResults.size, 0);
 });

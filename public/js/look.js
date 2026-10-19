@@ -2,7 +2,7 @@
 
 import { api } from './api.js';
 import { esc, toast, copyText, downloadText, slugify } from './site.js';
-import { renderResults } from './render.js';
+import { renderResults, researchOff } from './render.js';
 import { toMarkdown } from './notes.js';
 import { saveLook, findLookBySource, updateLook, archiveToken, forgetArchiveToken } from './store.js';
 
@@ -22,7 +22,7 @@ function fail(message) {
   const researchOn = status.ok && status.data.research;
   const example = entry.kind === 'example';
   const token = archiveToken(entry.id);
-  let research = researchOn ? { state: 'idle' } : { state: 'off' };
+  let research = researchOn ? { state: 'idle' } : researchOff(a, status.ok ? status.data : null);
   document.title = `${entry.title} — ÉTUDIER`;
 
   const notes = example

@@ -3,7 +3,7 @@
 // server/research, because looking like a garment is not the same as being it.
 
 const { analysisSchema, validate, normalizeAnalysis } = require('./schema');
-const { provider, model, PublicError, createWithFallback, getGemini } = require('./client');
+const { provider, model, PublicError, createWithFallback, geminiGenerate } = require('./client');
 
 const SYSTEM = `You are a fashion design tutor helping students analyse runway and fashion reference photographs.
 
@@ -59,8 +59,7 @@ function parseAnalysisResponse(response) {
 
 // Google Gemini (has a free plan). Same prompt and schema as Claude.
 async function analyzeWithGemini({ buffer, mediaType }) {
-  const response = await getGemini().models.generateContent({
-    model: model(),
+  const response = await geminiGenerate({
     contents: [{
       role: 'user',
       parts: [

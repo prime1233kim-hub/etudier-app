@@ -4,14 +4,15 @@
 //   1) have actually appeared in the search results (no invented URLs), and
 //   2) pass verifyCandidate() — loaded by this server, domain and content checked.
 
-const { provider, aiConfigured, model, createWithFallback, PublicError } = require('../ai/client');
+const { provider, aiConfigured, model, createWithFallback, geminiResearchOn, PublicError } = require('../ai/client');
 const { verifyCandidate } = require('./verify');
 
 const SOURCE_TYPES = ['official_product_page', 'official_collection_page', 'official_brand_page', 'official_instagram', 'runway_archive', 'press'];
 const MATCH_CLAIMS = ['exact_product', 'same_collection', 'brand_reference'];
 
 function researchEnabled() {
-  return aiConfigured() && String(process.env.RESEARCH_PROVIDER || 'on').toLowerCase() !== 'off';
+  if (!aiConfigured() || String(process.env.RESEARCH_PROVIDER || 'on').toLowerCase() === 'off') return false;
+  return provider() === 'gemini' ? geminiResearchOn() : true;
 }
 
 const clip = (s, n = 200) => String(s == null ? '' : s).slice(0, n);

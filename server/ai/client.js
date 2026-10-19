@@ -77,15 +77,45 @@ function getGemini() {
   return geminiClient;
 }
 
-// The model used for image analysis.
+// Gemini models to try, in order. Free models are often briefly overloaded
+// or retired, so if one is busy or unavailable the next is tried.
+// GEMINI_MODEL can be one model or a comma-separated list.
+const DEFAULT_GEMINI_MODELS = ['gemini-3.6-flash', 'gemini-3.8-flash', 'gemini-3.5-flash-lite'];
+function geminiModels() {
+  const list = String(process.env.GEMINI_MODEL || '').split(',').map((m) => m.trim()).filter(Boolean);
+  return list.length ? list : DEFAULT_GEMINI_MODELS;
+}
+
+// The model used for image analysis (the first choice, for display).
 function model() {
-  if (provider() === 'gemini') return process.env.GEMINI_MODEL || 'gemini-3.8-flash';
+  if (provider() === 'gemini') return geminiModels()[0];
   return process.env.ETUDIER_MODEL || 'claude-opus-5-5';
 }
 
-// Gemini's free plan only includes Google Search with the 2.5 models.
-function geminiResearchModel() {
-  return process.env.GEMINI_RESEARCH_MODEL || 'gemini-2.5-flash';
+// Statuses that mean "try another model": overloaded (503/500), over the
+// limit for this model (429) or not available to this account (404).
+const TRY_NEXT = [404, 429, 500, 503];
+
+// Runs a Gemini request, falling back through the model list.
+async function geminiGenerate(request, models = geminiModels()) {
+  let lastError;
+  for (const m of models) {
+    try {
+      return await getGemini().models.generateContent({ ...request, model: m });
+    } catch (err) {
+      lastError = err;
+      if (!(err instanceof GeminiApiError) || !TRY_NEXT.includes(err.status)) throw err;
+      console.warn(`Gemini model ${m} unavailable (${err.status}); trying the next one.`);
+    }
+  }
+  throw lastError;
+}
+
+// Automatic source research with Gemini needs Google Search, which Google's
+// free plan doesn't include for current models. Switch it on only if your
+// Google account has a paid plan: GEMINI_RESEARCH=on.
+function geminiResearchOn() {
+  return String(process.env.GEMINI_RESEARCH || '').trim().toLowerCase() === 'on';
 }
 
 class PublicError extends Error {
@@ -103,6 +133,7 @@ function toPublicError(err) {
     if (err.status === 429) return new PublicError('ai_busy', 'The free AI service has reached its limit for now. Please try again later — free allowances reset daily.', 503);
     if (err.status === 401 || err.status === 403) return new PublicError('ai_auth', 'The AI provider rejected the server’s API key. Check GEMINI_API_KEY.', 503);
     if (err.status === 400) return new PublicError('ai_rejected', 'The AI provider could not process this request. Try a different image.', 502);
+    if (err.status === 503 || err.status === 500) return new PublicError('ai_busy', 'Google’s free AI models are very busy right now. Please try again in a few minutes.', 503);
     if (err.status === 404) return new PublicError('ai_model', 'The configured Gemini model isn’t available. Check GEMINI_MODEL.', 503);
     return new PublicError('ai_error', 'The AI provider returned an error. Please try again.', 502);
   }
@@ -147,4 +178,4 @@ async function createWithFallback(params) {
   }
 }
 
-module.exports = { provider, aiConfigured, describeKeys, findKey, getClient, getGemini, model, geminiResearchModel, PublicError, toPublicError, createWithFallback };
+module.exports = { provider, aiConfigured, describeKeys, findKey, getClient, getGemini, model, geminiModels, geminiGenerate, geminiResearchOn, PublicError, toPublicError, createWithFallback };

@@ -49,7 +49,8 @@ Things to know about the free plan:
 
 - **Daily limits.** When they run out, the site says "try again later" until the limit resets.
 - **Privacy.** Google says it may use content sent on its free plan to improve its products. The Analyze page tells visitors this.
-- **Models.** Analysis uses `gemini-3.8-flash`. Source research uses `gemini-2.5-flash`, because Google Search is only free with the 2.5 models. You can change either in `.env` if Google's free models change.
+- **Models.** Analysis tries `gemini-3.6-flash`, then `gemini-3.8-flash`, then `gemini-3.5-flash-lite`, moving on whenever one is busy. Change the list with `GEMINI_MODEL` if Google retires a model.
+- **No automatic source research.** Google's free plan doesn't include Google Search, so on the free plan the research section shows ready-made searches to run yourself instead of checked links. With a paid Google plan, add `GEMINI_RESEARCH=on` to switch it on.
 
 ### Option B: paid (Anthropic Claude)
 
@@ -64,7 +65,7 @@ If both keys are set, Claude is used. Add `AI_PROVIDER=gemini` to force the free
 npm test
 ```
 
-This runs 37 automatic checks. They cover uploads, the analysis pipeline for both Claude and Gemini (using pretend AI services, so no key or money is needed), link checking, the archive, and security headers.
+This runs 45 automatic checks. They cover uploads, the analysis pipeline for both Claude and Gemini (using pretend AI services, so no key or money is needed), link checking, the archive, and security headers.
 
 ---
 
@@ -77,7 +78,7 @@ This runs 37 automatic checks. They cover uploads, the analysis pipeline for bot
 | File checks: JPEG/PNG/WebP only, 10 MB max, fake files rejected | ✅ Works with no setup |
 | Demo analysis, clearly labelled as sample data | ✅ Works with no setup |
 | Real AI analysis of your uploaded photo | 🔑 Needs `GEMINI_API_KEY` (free) or `ANTHROPIC_API_KEY` |
-| Brand & source research, with link checking | 🔑 Needs `GEMINI_API_KEY` (free) or `ANTHROPIC_API_KEY` |
+| Brand & source research, with link checking | 🔑 Needs `ANTHROPIC_API_KEY`, or a paid Google plan (`GEMINI_RESEARCH=on`). On the free plan you get search suggestions instead |
 | Saved looks, collections, glossary, copy/download notes | ✅ Works, but stored **in your browser only** |
 | Adding looks to the public archive | ✅ Works. See the storage note below |
 
@@ -99,7 +100,7 @@ This runs 37 automatic checks. They cover uploads, the analysis pipeline for bot
 - **AI can be wrong.** Colours are estimates, and fabrics are often guesses (each is labelled). Treat results as a starting point.
 - **Brand websites often block automated checks.** Those links are kept, but marked unverified.
 - **Rate limits** are kept in memory, so they reset when the server restarts.
-- The live AI path was tested against simulated Claude and Gemini services, not the real ones. Run one real analysis after adding your key.
+- Gemini analysis has been tested with a real free key. The Claude path and paid Gemini research were tested against simulated services only.
 
 ## Example images
 
