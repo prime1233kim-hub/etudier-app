@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analyze a Look — ÉTUDIER</title>
+<meta name="description" content="Upload a runway photograph and get an AI-assisted analysis of its silhouette, colours, garments, details and vocabulary.">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@400;500&display=swap">
+<link rel="stylesheet" href="/css/etudier.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header id="site-header" class="site-header"></header>
+<main id="main">
+
+<section class="page-head">
+  <div class="wrap">
+    <span class="label">Analyze a Look</span>
+    <h1 class="display">Start with <em>what you see.</em></h1>
+    <p class="lede">Upload a runway photograph or a fashion reference image. ÉTUDIER describes the silhouette, colour, garments and construction, teaches the vocabulary, and then looks for the original source.</p>
+  </div>
+</section>
+
+<section class="wrap analyze-layout">
+  <aside class="analyze-intro">
+    <ol>
+      <li>Choose a clear photo where the whole outfit is visible.</li>
+      <li>Crop to the look if the photo includes other people.</li>
+      <li>Analyze, then explore each garment and term.</li>
+      <li>Run source research to trace the brand.</li>
+    </ol>
+    <p class="small muted m0">JPEG, PNG or WebP, up to 10 MB. Your photo is analysed in memory and isn’t stored, unless you choose to add it to the public archive.</p>
+    <div id="ai-status" aria-live="polite"></div>
+  </aside>
+
+  <div class="analyze-stage">
+    <label class="dropzone" id="dropzone">
+      <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" aria-describedby="drop-help">
+      <div>
+        <div class="plus" aria-hidden="true">+</div>
+        <p class="h2">Drop a look here</p>
+        <p id="drop-help">or click to choose a photograph</p>
+        <span class="btn ghost" aria-hidden="true">Choose image</span>
+      </div>
+    </label>
+
+    <div class="preview" id="preview" hidden>
+      <figure class="preview-figure" id="preview-figure">
+        <img id="preview-img" alt="Your uploaded look">
+      </figure>
+      <div class="preview-side">
+        <span class="label">Your image</span>
+        <span class="file-meta" id="file-meta"></span>
+        <div id="edit-controls" class="preview-side">
+          <button type="button" class="btn" id="analyze-btn">Analyze Look <span class="arrow" aria-hidden="true">→</span></button>
+          <div class="row">
+            <button type="button" class="text-btn" id="crop-btn">Crop</button>
+            <button type="button" class="text-btn" id="reset-crop-btn" hidden>Undo crop</button>
+            <label class="text-btn" for="replace-input">Replace</label>
+            <input type="file" id="replace-input" class="visually-hidden" accept="image/jpeg,image/png,image/webp">
+            <button type="button" class="text-btn danger" id="remove-btn">Remove</button>
+          </div>
+        </div>
+        <div id="crop-controls" class="preview-side" hidden>
+          <p class="small muted m0">Drag the frame to move it, or drag a corner to resize.</p>
+          <div class="row">
+            <button type="button" class="btn small" id="apply-crop-btn">Apply crop</button>
+            <button type="button" class="btn small ghost" id="cancel-crop-btn">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="upload-error" aria-live="assertive"></div>
+    <div class="loading" id="loading" role="status" hidden>
+      <div class="bar"></div>
+      <span class="msg" id="loading-msg">Reading the silhouette…</span>
+      <span class="small muted">Analysis usually takes 20–60 seconds. Please keep this page open.</span>
+    </div>
+  </div>
+</section>
+
+<section class="wrap results" id="results" hidden aria-label="Analysis results"></section>
+
+<dialog id="archive-dialog" aria-labelledby="archive-dialog-title">
+  <form method="dialog" id="archive-form">
+    <h2 class="h2" id="archive-dialog-title">Add to the public archive</h2>
+    <p class="m0 ink2">Everyone visiting ÉTUDIER will be able to see this look: a small copy of your image and its analysis.</p>
+    <div class="field"><label for="arch-brand">Brand or designer (optional, only if you know it)</label><input class="input" id="arch-brand" maxlength="80" autocomplete="off"></div>
+    <div class="field"><label for="arch-season">Collection or season (optional)</label><input class="input" id="arch-season" maxlength="80" autocomplete="off"></div>
+    <label class="check"><input type="checkbox" id="arch-consent" required> <span>I took this photo or have the right to share it, and I agree to it being shown publicly in the archive.</span></label>
+    <p class="small muted m0" id="arch-error" aria-live="assertive"></p>
+    <div class="row">
+      <button type="button" class="btn ghost" value="cancel" id="arch-cancel">Cancel</button>
+      <button type="submit" class="btn" value="confirm" id="arch-submit">Add to archive</button>
+    </div>
+  </form>
+</dialog>
+</main>
+<footer id="site-footer" class="site-footer"></footer>
+<script type="module" src="/js/site.js"></script>
+<script type="module" src="/js/analyze.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "etudier",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ÉTUDIER — study runway looks with AI-assisted garment analysis, fashion vocabulary and honest source research.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test --test-concurrency=1 \"test/*.test.js\""
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
+    "express": "^4.22.3",
+    "multer": "^2.4.0"
+  }
+}

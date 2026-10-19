@@ -1,0 +1,6 @@
+node_modules/
+.env
+data/archive.json
+data/archive.json.tmp
+data/archive-images/*
+!data/archive-images/.gitkeep

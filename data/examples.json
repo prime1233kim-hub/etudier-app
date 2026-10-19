@@ -1,0 +1,412 @@
+[
+  {
+    "id": "ex-basil-soda-rtw-ss11-ochre",
+    "kind": "example",
+    "illustrative": true,
+    "title": "Ivory satin lapel vest with ochre draped skirt",
+    "brand": "Basil Soda",
+    "season": "Ready-to-Wear Spring/Summer 2011, Paris",
+    "attribution_basis": "Designer and season from the photograph's Wikimedia Commons category; the BASIL SODA backdrop is visible in the photo.",
+    "image": {
+      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Basil_Soda_-_Ready-To-Wear_Spring-Summer_2011_Paris_%285044822637%29.jpg/1280px-Basil_Soda_-_Ready-To-Wear_Spring-Summer_2011_Paris_%285044822637%29.jpg",
+      "width": 1280, "height": 2048,
+      "credit": "Photo: beyrouth",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Basil_Soda_-_Ready-To-Wear_Spring-Summer_2011_Paris_(5044822637).jpg"
+    },
+    "analysis": {
+      "is_fashion_image": true,
+      "image_note": "Photographed at the show against a dark backdrop; the skirt hem and shoes are cropped out of frame.",
+      "title": "Ivory satin lapel vest with ochre draped skirt",
+      "overall": {
+        "summary": "A sleeveless ivory satin vest with oversized lapels is worn open over the body and cinched with two stacked embellished belts, above a high-waisted ochre satin skirt draped into soft folds. Layered gold chains and a chain-handled clutch complete the look.",
+        "silhouette": "An inverted triangle on top — wide, extended shoulders and broad lapels — narrowing sharply at the belted waist, then a draped column below.",
+        "silhouette_tags": ["inverted triangle", "cinched waist", "column"],
+        "proportions": "The waist is marked high and hard by two belts, so the skirt takes up roughly the lower two-thirds of the visible figure. The deep V of the lapels lengthens the torso visually.",
+        "styling": "Tailoring codes (lapels, shoulder line) are applied to a sleeveless top and paired with an eveningwear satin skirt. Jewellery is layered heavily at the neckline to fill the open V.",
+        "aesthetic": "Sharp-shouldered, glamorous daywear-to-evening with a 1980s power-shoulder reference softened by fluid satin."
+      },
+      "colors": {
+        "palette": [
+          { "name": "Ochre satin", "hex": "#b8972a", "role": "dominant", "where": "Draped skirt and collar facing" },
+          { "name": "Ivory", "hex": "#ece3d2", "role": "dominant", "where": "Satin vest" },
+          { "name": "Antique gold", "hex": "#a8873e", "role": "secondary", "where": "Chain necklaces, belt hardware, clutch" },
+          { "name": "Black", "hex": "#151313", "role": "accent", "where": "Belt bands" }
+        ],
+        "combinations": ["Ivory and ochre: a light/dark split at the waist", "Gold metal repeated from neck to waist to hand"],
+        "interaction": "The ochre of the skirt reappears in the collar facing, linking top and bottom. Black belts create a hard horizontal break between the two main colours, and the gold jewellery bridges them."
+      },
+      "garments": [
+        {
+          "id": "vest",
+          "category": "top",
+          "name": "Sleeveless satin vest with oversized lapels",
+          "silhouette_fit": "Structured, with extended shoulders that project past the natural shoulder point; open to the waist.",
+          "details": ["Wide notch-style lapels", "Extended, squared shoulder line", "Sleeveless armhole", "Contrast ochre collar facing"],
+          "fabric": { "description": "High-sheen satin with some body, holding the lapel shape.", "basis": "observed" },
+          "terms": ["lapel", "extended shoulder", "satin"],
+          "confidence": "high",
+          "uncertainty": "It is not visible whether the vest closes or is worn fully open beneath the belts."
+        },
+        {
+          "id": "skirt",
+          "category": "skirt",
+          "name": "High-waisted draped satin skirt",
+          "silhouette_fit": "Fitted at the waist, then gathered into diagonal drapes over the hips; narrow overall.",
+          "details": ["Soft gathered drape at the front", "High waist hidden by belts"],
+          "fabric": { "description": "Lustrous satin with fluid drape.", "basis": "observed" },
+          "terms": ["drape", "high-waisted"],
+          "confidence": "medium",
+          "uncertainty": "The hem and length are cropped out of the photo."
+        },
+        {
+          "id": "belts",
+          "category": "belt",
+          "name": "Two stacked embellished waist belts",
+          "silhouette_fit": "Worn tight at the natural waist.",
+          "details": ["Black bands", "Gold studs or plaques", "Worn as a pair"],
+          "fabric": { "description": "Appears to be leather or a leather-like band with metal hardware.", "basis": "inferred" },
+          "terms": ["cinched waist"],
+          "confidence": "high",
+          "uncertainty": ""
+        },
+        {
+          "id": "jewellery",
+          "category": "jewellery",
+          "name": "Layered gold chain necklaces",
+          "silhouette_fit": "Long, falling into the neckline V.",
+          "details": ["Multiple chains of different lengths", "Pendant element"],
+          "fabric": { "description": "Gold-tone metal.", "basis": "observed" },
+          "terms": ["layering"],
+          "confidence": "high",
+          "uncertainty": ""
+        },
+        {
+          "id": "clutch",
+          "category": "bag",
+          "name": "Gold clutch with chain",
+          "silhouette_fit": "Small hand-held bag.",
+          "details": ["Chain wrapped around the hand", "Pleated or ridged front"],
+          "fabric": { "description": "Metallic gold surface.", "basis": "inferred" },
+          "terms": ["clutch"],
+          "confidence": "medium",
+          "uncertainty": "Partly hidden by the hand."
+        }
+      ],
+      "design_details": [
+        { "area": "Shoulder", "garment_id": "vest", "detail": "The shoulder line extends well beyond the body and is cut squarely, creating width without sleeves.", "kind": "observation" },
+        { "area": "Lapels", "garment_id": "vest", "detail": "Very wide lapels run down to the waist, forming a deep V that frames the jewellery.", "kind": "observation" },
+        { "area": "Collar", "garment_id": "vest", "detail": "An ochre facing shows at the back of the collar, repeating the skirt colour.", "kind": "observation" },
+        { "area": "Waist", "garment_id": "belts", "detail": "Two belts are stacked to make a deep waistband, a strong horizontal against the vertical lapels.", "kind": "observation" },
+        { "area": "Skirt front", "garment_id": "skirt", "detail": "Fabric is gathered diagonally, likely from tucks or pleats at the waist seam.", "kind": "inference" }
+      ],
+      "vocabulary": [
+        { "term": "Lapel", "definition": "The folded-back front edge of a jacket or coat that continues from the collar.", "application": "Here the lapels are unusually wide and long, carried onto a sleeveless vest.", "contrast": "A notch lapel has a V-shaped cut where it meets the collar; a shawl lapel is one continuous curve with no notch." },
+        { "term": "Extended shoulder", "definition": "A shoulder line that sits beyond the wearer's natural shoulder point.", "application": "The vest's squared shoulders project outward, widening the upper body.", "contrast": "A dropped shoulder falls down the arm and looks relaxed; an extended shoulder stays high and looks structured." },
+        { "term": "Drape", "definition": "How fabric hangs and folds under its own weight, or folds deliberately arranged by the designer.", "application": "The satin skirt is draped into diagonal folds across the front.", "contrast": "Pleats are folds pressed or stitched in place; drape folds are softer and move." },
+        { "term": "Cinched waist", "definition": "A waist pulled in tightly, usually by a belt or corsetry, to emphasise it.", "application": "Two belts mark and narrow the waist between the wide top and the skirt.", "contrast": "" },
+        { "term": "Inverted triangle silhouette", "definition": "A shape that is widest at the shoulders and narrows downward.", "application": "Broad shoulders and lapels taper to the belted waist.", "contrast": "An A-line silhouette does the opposite: narrow at the top and widening toward the hem." },
+        { "term": "Satin", "definition": "A weave with long floating threads on the surface, giving a smooth, shiny face.", "application": "Both the vest and skirt show the high sheen typical of satin.", "contrast": "Matte crepe has a dry, grainy surface and diffuses light instead of reflecting it." }
+      ],
+      "identification": {
+        "visible_branding": ["BASIL SODA (backdrop)"],
+        "possible_brands": [{ "name": "Basil Soda", "reasoning": "The designer's name is printed on the backdrop.", "confidence": "high" }],
+        "search_queries": ["Basil Soda Spring Summer 2011 ready-to-wear", "Basil Soda SS11 Paris collection"]
+      }
+    }
+  },
+  {
+    "id": "ex-basil-soda-rtw-ss11-ivory",
+    "kind": "example",
+    "illustrative": true,
+    "title": "Stand-collar ivory vest over a tulle skirt",
+    "brand": "Basil Soda",
+    "season": "Ready-to-Wear Spring/Summer 2011, Paris",
+    "attribution_basis": "Designer and season from the photograph's Wikimedia Commons category.",
+    "image": {
+      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Basil_Soda_-_Ready-To-Wear_Spring-Summer_2011_Paris_%285044816735%29.jpg/1280px-Basil_Soda_-_Ready-To-Wear_Spring-Summer_2011_Paris_%285044816735%29.jpg",
+      "width": 1280, "height": 2048,
+      "credit": "Photo: beyrouth",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Basil_Soda_-_Ready-To-Wear_Spring-Summer_2011_Paris_(5044816735).jpg"
+    },
+    "analysis": {
+      "is_fashion_image": true,
+      "image_note": "Backstage photograph with low light; the lower skirt is in shadow.",
+      "title": "Stand-collar ivory vest over a tulle skirt",
+      "overall": {
+        "summary": "A long, sleeveless ivory satin vest with a high stand collar and flap pocket is belted with stacked gold-studded belts over a full, translucent taupe tulle skirt.",
+        "silhouette": "A narrow, structured upper body over a voluminous, airy skirt.",
+        "silhouette_tags": ["structured", "full skirt"],
+        "proportions": "The vest runs past the hip, so the belts sit in the middle of the garment; the tulle skirt spreads out beneath it.",
+        "styling": "Hard tailoring is contrasted with soft, sheer volume — a day-jacket idea worn over an evening skirt.",
+        "aesthetic": "Military-inflected tailoring meets romantic eveningwear."
+      },
+      "colors": {
+        "palette": [
+          { "name": "Ivory satin", "hex": "#e9dfcb", "role": "dominant", "where": "Vest" },
+          { "name": "Smoky taupe", "hex": "#6e6157", "role": "dominant", "where": "Tulle skirt" },
+          { "name": "Gold", "hex": "#b08a3c", "role": "accent", "where": "Belt studs, bracelet, bag" },
+          { "name": "Black", "hex": "#181614", "role": "secondary", "where": "Belt bands, zip trim" }
+        ],
+        "combinations": ["Ivory against smoky taupe", "Black and gold hardware"],
+        "interaction": "The pale vest reads as a solid block against the dark, see-through skirt, and the black-and-gold belts sharpen the meeting point."
+      },
+      "garments": [
+        {
+          "id": "vest",
+          "category": "top",
+          "name": "Longline sleeveless vest with stand collar",
+          "silhouette_fit": "Fitted through the body, hip length or longer, with squared shoulders.",
+          "details": ["High stand collar", "Front zip or placket with dark trim", "Flap pocket at the hip"],
+          "fabric": { "description": "Satin with a firm hand.", "basis": "observed" },
+          "terms": ["stand collar", "flap pocket"],
+          "confidence": "high",
+          "uncertainty": "The exact closure (zip or concealed placket) is unclear."
+        },
+        {
+          "id": "skirt",
+          "category": "skirt",
+          "name": "Full tulle skirt",
+          "silhouette_fit": "Voluminous, flaring from beneath the vest.",
+          "details": ["Several translucent layers"],
+          "fabric": { "description": "Sheer tulle or fine net.", "basis": "inferred" },
+          "terms": ["tulle"],
+          "confidence": "medium",
+          "uncertainty": "Length and waist are hidden by the vest and shadows."
+        },
+        {
+          "id": "belts",
+          "category": "belt",
+          "name": "Stacked studded belts",
+          "silhouette_fit": "Worn tight around the vest.",
+          "details": ["Two black bands", "Gold studs"],
+          "fabric": { "description": "Leather-like bands with metal studs.", "basis": "inferred" },
+          "terms": ["cinched waist"],
+          "confidence": "high",
+          "uncertainty": ""
+        }
+      ],
+      "design_details": [
+        { "area": "Collar", "garment_id": "vest", "detail": "A stand collar rises straight up the neck with no fold-over, giving a uniform-like edge.", "kind": "observation" },
+        { "area": "Hip", "garment_id": "vest", "detail": "A flap pocket sits low on the hip, a menswear detail.", "kind": "observation" },
+        { "area": "Skirt", "garment_id": "skirt", "detail": "Volume is built from several layers of sheer fabric rather than one stiff layer.", "kind": "inference" }
+      ],
+      "vocabulary": [
+        { "term": "Stand collar", "definition": "A collar that stands up around the neck without folding over.", "application": "The vest's collar rises straight up, adding height and formality.", "contrast": "A shirt collar folds down over a collar stand; a stand collar is only the upright band." },
+        { "term": "Flap pocket", "definition": "A pocket covered by a separate piece of fabric (the flap).", "application": "A flap pocket at the hip borrows from tailored jackets.", "contrast": "A patch pocket is sewn onto the outside with no flap; a welt pocket is a slit finished with a narrow strip." },
+        { "term": "Tulle", "definition": "A lightweight, fine net fabric often used in layers for volume.", "application": "The skirt's sheer, smoky layers create volume without weight.", "contrast": "Organza is also sheer but is a woven fabric with a crisper, smoother surface." },
+        { "term": "Longline", "definition": "Describes a top or jacket cut longer than usual.", "application": "The vest extends past the hip.", "contrast": "A cropped jacket ends above the waist." }
+      ],
+      "identification": {
+        "visible_branding": [],
+        "possible_brands": [],
+        "search_queries": ["Basil Soda Spring Summer 2011 ivory vest tulle skirt"]
+      }
+    }
+  },
+  {
+    "id": "ex-georges-hobeika-hc-ss11-halter",
+    "kind": "example",
+    "illustrative": true,
+    "title": "Grey halter gown with interlaced pintucked straps",
+    "brand": "Georges Hobeika",
+    "season": "Haute Couture Spring/Summer 2011",
+    "attribution_basis": "Designer and season from the photograph's Wikimedia Commons category.",
+    "image": {
+      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Haute_Couture_Spring-Summer_2011_%285549441113%29.jpg/1280px-Haute_Couture_Spring-Summer_2011_%285549441113%29.jpg",
+      "width": 1280, "height": 1707,
+      "credit": "Photo: beyrouth",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Haute_Couture_Spring-Summer_2011_(5549441113).jpg"
+    },
+    "analysis": {
+      "is_fashion_image": true,
+      "image_note": "Backstage photograph cropped at the hip; the skirt is not visible.",
+      "title": "Grey halter gown with interlaced pintucked straps",
+      "overall": {
+        "summary": "A dove-grey gown whose bodice is formed by two bands of fine pintucked fabric that cross at the throat as a halter and interlace down the centre front before releasing into soft drapes at the waist.",
+        "silhouette": "Close-fitting bodice with bare shoulders; the visible part suggests a column or softly draped gown.",
+        "silhouette_tags": ["halter", "fitted bodice"],
+        "proportions": "The interlaced bands create a strong vertical line down the centre, lengthening the torso.",
+        "styling": "Minimal styling — hair pulled back, no visible jewellery — so the construction is the focus.",
+        "aesthetic": "Grecian-inspired couture drapery with a precise, technical surface."
+      },
+      "colors": {
+        "palette": [
+          { "name": "Dove grey", "hex": "#a9aa9c", "role": "dominant", "where": "Entire gown" },
+          { "name": "Pale sage", "hex": "#c3c4b4", "role": "secondary", "where": "Highlights on the pintucked bands" }
+        ],
+        "combinations": ["Tone-on-tone grey"],
+        "interaction": "A single colour lets light and shadow on the tucks and drapes do the work instead of contrast."
+      },
+      "garments": [
+        {
+          "id": "gown",
+          "category": "dress",
+          "name": "Halter-neck gown with interlaced bodice",
+          "silhouette_fit": "Fitted through the bodice, releasing into drape at the waist.",
+          "details": ["Crossed halter neckline", "Bands of narrow pintucks interlaced at centre front", "Draped folds at the waist"],
+          "fabric": { "description": "Matte, fluid fabric such as silk crepe or jersey.", "basis": "inferred" },
+          "terms": ["halter neckline", "pintucks", "drape"],
+          "confidence": "high",
+          "uncertainty": "The skirt and back are not visible."
+        }
+      ],
+      "design_details": [
+        { "area": "Neckline", "garment_id": "gown", "detail": "Two bands cross at the throat and wrap behind the neck, leaving the shoulders bare.", "kind": "observation" },
+        { "area": "Centre front", "garment_id": "gown", "detail": "The bands twist around each other in an interlaced pattern down the bodice.", "kind": "observation" },
+        { "area": "Bands", "garment_id": "gown", "detail": "Each band is covered in narrow parallel tucks, adding texture and some rigidity.", "kind": "observation" },
+        { "area": "Waist", "garment_id": "gown", "detail": "Below the bodice the fabric falls into soft, unpressed folds.", "kind": "observation" }
+      ],
+      "vocabulary": [
+        { "term": "Halter neckline", "definition": "A neckline held up by a strap or band that goes around the back of the neck.", "application": "The crossed bands form the halter and leave the shoulders and arms bare.", "contrast": "A strapless bodice has no support over the shoulders or neck at all." },
+        { "term": "Pintucks", "definition": "Very narrow stitched folds, usually in parallel rows, used for texture or shaping.", "application": "The interlaced bands are made of rows of fine pintucks.", "contrast": "Pleats are wider folds and are usually left free at one end; pintucks are stitched along their length." },
+        { "term": "Drape", "definition": "How fabric falls and folds, often arranged by hand on a dress form.", "application": "The fabric relaxes into drapes below the structured bodice.", "contrast": "" }
+      ],
+      "identification": {
+        "visible_branding": [],
+        "possible_brands": [],
+        "search_queries": ["Georges Hobeika Haute Couture Spring Summer 2011 grey halter gown"]
+      }
+    }
+  },
+  {
+    "id": "ex-basil-soda-hc-ss11-blue",
+    "kind": "example",
+    "illustrative": true,
+    "title": "Cerulean draped gown with embellished bodice",
+    "brand": "Basil Soda",
+    "season": "Haute Couture Spring/Summer 2011",
+    "attribution_basis": "Designer and season from the photograph's Wikimedia Commons category.",
+    "image": {
+      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Haute_Couture_Spring_Summer_2011_%285424886113%29.jpg/1280px-Haute_Couture_Spring_Summer_2011_%285424886113%29.jpg",
+      "width": 1280, "height": 2048,
+      "credit": "Photo: beyrouth",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Haute_Couture_Spring_Summer_2011_(5424886113).jpg"
+    },
+    "analysis": {
+      "is_fashion_image": true,
+      "image_note": "Backstage photograph; the lower skirt is out of frame.",
+      "title": "Cerulean draped gown with embellished bodice",
+      "overall": {
+        "summary": "A bright cerulean gown with a sweetheart-shaped panel of silver embroidery at the bust, embellished shoulders, and heavy cowl drapes falling from the bust across the midriff.",
+        "silhouette": "Fluid and body-skimming, with volume concentrated in the drapes at the front.",
+        "silhouette_tags": ["draped", "column"],
+        "proportions": "The embellishment is placed high on the body, drawing the eye to the shoulders and bust.",
+        "styling": "Sleek, lifted hair and strong blue eye make-up echo the gown's colour.",
+        "aesthetic": "Couture evening glamour with Grecian drapery and jewel-like embroidery."
+      },
+      "colors": {
+        "palette": [
+          { "name": "Cerulean", "hex": "#2a86b8", "role": "dominant", "where": "Gown" },
+          { "name": "Silver", "hex": "#b9bec4", "role": "accent", "where": "Bead and sequin embroidery" },
+          { "name": "Deep teal shadow", "hex": "#1d5d7f", "role": "secondary", "where": "Folds of the drapes" }
+        ],
+        "combinations": ["Saturated blue with cool silver"],
+        "interaction": "The silver embroidery picks up light and contrasts with the saturated blue, while shadows in the drapes give the colour depth."
+      },
+      "garments": [
+        {
+          "id": "gown",
+          "category": "dress",
+          "name": "Draped evening gown with embroidered bust panel",
+          "silhouette_fit": "Body-skimming with soft cowl drapes across the front.",
+          "details": ["Embroidered panel at the bust", "Embellished shoulder straps", "Cowl drapes at the front"],
+          "fabric": { "description": "A fluid, lightly lustrous fabric such as silk chiffon or charmeuse.", "basis": "inferred" },
+          "terms": ["cowl drape", "embellishment", "sweetheart neckline"],
+          "confidence": "high",
+          "uncertainty": "Skirt length and back construction are not visible."
+        }
+      ],
+      "design_details": [
+        { "area": "Bust", "garment_id": "gown", "detail": "Silver beading forms a curved, sweetheart-like panel.", "kind": "observation" },
+        { "area": "Shoulders", "garment_id": "gown", "detail": "The wide straps are also embellished, framing the neckline.", "kind": "observation" },
+        { "area": "Front", "garment_id": "gown", "detail": "Fabric hangs in loose U-shaped folds below the bust, typical of a cowl.", "kind": "observation" },
+        { "area": "Construction", "garment_id": "gown", "detail": "The drapes are likely cut on the bias so they fall softly.", "kind": "inference" }
+      ],
+      "vocabulary": [
+        { "term": "Cowl drape", "definition": "Fabric that falls in soft, rounded U-shaped folds, often at the neck or front.", "application": "Loose folds hang from beneath the embroidered bust.", "contrast": "Ruching gathers fabric tightly into small puckers; a cowl hangs loosely." },
+        { "term": "Embellishment", "definition": "Decoration added to fabric, such as beads, sequins or embroidery.", "application": "Silver beadwork covers the bust panel and straps.", "contrast": "" },
+        { "term": "Bias cut", "definition": "Cutting fabric at 45° to the grain so it stretches and drapes more fluidly.", "application": "The soft fall of the drapes suggests bias-cut fabric (an inference).", "contrast": "Straight-grain cutting is more stable and hangs straighter." }
+      ],
+      "identification": {
+        "visible_branding": [],
+        "possible_brands": [],
+        "search_queries": ["Basil Soda Haute Couture Spring Summer 2011 blue gown"]
+      }
+    }
+  },
+  {
+    "id": "ex-basil-soda-hc-ss11-emerald",
+    "kind": "example",
+    "illustrative": true,
+    "title": "Emerald chiffon gown with embroidered V-neck bodice",
+    "brand": "Basil Soda",
+    "season": "Haute Couture Spring/Summer 2011",
+    "attribution_basis": "Designer and season from the photograph's Wikimedia Commons category.",
+    "image": {
+      "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Haute_Couture_Spring_Summer_2011_%285424892811%29.jpg/1280px-Haute_Couture_Spring_Summer_2011_%285424892811%29.jpg",
+      "width": 1280, "height": 2048,
+      "credit": "Photo: beyrouth",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Haute_Couture_Spring_Summer_2011_(5424892811).jpg"
+    },
+    "analysis": {
+      "is_fashion_image": true,
+      "image_note": "Backstage photograph with motion in the skirt.",
+      "title": "Emerald chiffon gown with embroidered V-neck bodice",
+      "overall": {
+        "summary": "An emerald gown with a deep V neckline, short embroidered cap sleeves and a fitted embellished bodice, opening into a long, floating chiffon skirt.",
+        "silhouette": "Fitted bodice and defined waist over a full, flowing floor-length skirt.",
+        "silhouette_tags": ["fit and flare", "floor-length"],
+        "proportions": "The embellishment stops at a marked waist, giving a clear split between the decorated bodice and the plain, airy skirt.",
+        "styling": "Hair is swept up into a sculpted chignon, keeping the shoulders and neckline clear.",
+        "aesthetic": "Romantic couture eveningwear."
+      },
+      "colors": {
+        "palette": [
+          { "name": "Emerald", "hex": "#1f7a63", "role": "dominant", "where": "Chiffon skirt and bodice" },
+          { "name": "Silver", "hex": "#b8bcb5", "role": "accent", "where": "Bodice and sleeve embroidery" },
+          { "name": "Deep green", "hex": "#14503f", "role": "secondary", "where": "Shadowed folds" }
+        ],
+        "combinations": ["Emerald with silver"],
+        "interaction": "Sheer layers make the skirt look lighter than the dense, embroidered bodice even though the colour is the same."
+      },
+      "garments": [
+        {
+          "id": "gown",
+          "category": "dress",
+          "name": "V-neck evening gown with embroidered bodice and chiffon skirt",
+          "silhouette_fit": "Fitted bodice with a gathered, floor-length skirt.",
+          "details": ["Deep V neckline", "Embroidered cap sleeves", "Embellished fitted bodice", "Gathered sheer skirt"],
+          "fabric": { "description": "Sheer, lightweight chiffon in the skirt.", "basis": "observed" },
+          "terms": ["V-neckline", "cap sleeve", "chiffon", "fit and flare"],
+          "confidence": "high",
+          "uncertainty": ""
+        }
+      ],
+      "design_details": [
+        { "area": "Neckline", "garment_id": "gown", "detail": "A deep V plunges toward the waist and is edged in embroidery.", "kind": "observation" },
+        { "area": "Sleeves", "garment_id": "gown", "detail": "Short cap sleeves just cover the shoulder and carry the same embroidery.", "kind": "observation" },
+        { "area": "Skirt", "garment_id": "gown", "detail": "Several layers of sheer fabric are gathered into the waist and move freely.", "kind": "observation" }
+      ],
+      "vocabulary": [
+        { "term": "Cap sleeve", "definition": "A very short sleeve that covers only the top of the shoulder.", "application": "The embroidered sleeves sit just over the shoulder.", "contrast": "A short sleeve continues down the upper arm; a cap sleeve stops at the shoulder." },
+        { "term": "Chiffon", "definition": "A sheer, lightweight plain-weave fabric with a soft drape.", "application": "The skirt's floating, see-through layers.", "contrast": "Georgette is similar but slightly heavier with a crinkled surface." },
+        { "term": "Fit and flare", "definition": "A silhouette that is fitted through the bodice and flares out below the waist.", "application": "The fitted embroidered bodice gives way to a wide, flowing skirt.", "contrast": "A sheath or column stays close to the body all the way down." }
+      ],
+      "identification": {
+        "visible_branding": [],
+        "possible_brands": [],
+        "search_queries": ["Basil Soda Haute Couture Spring Summer 2011 emerald gown"]
+      }
+    }
+  }
+]

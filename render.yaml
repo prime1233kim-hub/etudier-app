@@ -1,0 +1,15 @@
+# Render Blueprint: lets Render set the service up from this file.
+# The API key is NOT stored here — Render asks for it when you create the service.
+services:
+  - type: web
+    name: etudier-app
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/status
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: ANTHROPIC_API_KEY
+        sync: false
