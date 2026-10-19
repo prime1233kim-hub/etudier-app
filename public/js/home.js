@@ -14,7 +14,7 @@ function firstSentence(text) {
     host.innerHTML = `<p class="muted">The featured looks could not be loaded. <a href="/archive">Open the archive</a>.</p>`;
     return;
   }
-  const items = data.entries.filter((e) => e.kind === 'example').slice(1, 5); // the first example is the hero
+  const items = data.entries.filter((e) => e.kind === 'example').slice(0, 5);
   host.innerHTML = items.map((e) => `
     <figure class="feature reveal">
       <a href="/look?id=${encodeURIComponent(e.id)}">

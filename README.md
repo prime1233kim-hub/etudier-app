@@ -88,7 +88,10 @@ This runs 32 automatic checks. They cover uploads, the analysis pipeline (using 
 
 ## Example images
 
-The homepage and archive examples are runway and backstage photographs from **Wikimedia Commons**, used under their Creative Commons licences and credited on each look.
+All photographs come from **Wikimedia Commons** and are used under their Creative Commons licences. Each one is credited on the page where it appears.
+
+- **Homepage hero:** garments by Tom Ford, Rick Owens and Dior, photographed in museum exhibitions. Freely licensed runway photos of these designers aren’t available, so the hero uses exhibition photos instead.
+- **Archive examples:** runway and backstage photos from Basil Soda and Georges Hobeika, Spring/Summer 2011.
 
 The designer and season come from each photo's Commons record. The written analyses for these examples are **illustrative samples** and are labelled that way. They are not AI output.
 
